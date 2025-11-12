@@ -1,35 +1,30 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import ContactForm from "./components/ContactForm";
+import ContactList from "./components/ContactList";
 
-function App() {
-  const [count, setCount] = useState(0)
-
+export default function App() {
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
-}
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-blue-100 flex flex-col items-center p-6">
+      <div className="w-full max-w-5xl">
+        {/* Header */}
+        <header className="mb-10 text-center">
+          <h1 className="text-5xl font-bold text-blue-700 drop-shadow-sm mb-2">📘 Address Book</h1>
+          <p className="text-gray-600 text-lg">
+          </p>
+        </header>
 
-export default App
+        {/* Main Content */}
+        <div className="grid md:grid-cols-2 gap-8">
+          <div className="bg-white p-6 rounded-2xl shadow-lg border border-blue-100">
+            <h2 className="text-2xl font-semibold text-gray-700 mb-4">Add New Contact</h2>
+            <ContactForm />
+          </div>
+
+          <div className="bg-white p-6 rounded-2xl shadow-lg border border-blue-100">
+            <h2 className="text-2xl font-semibold text-gray-700 mb-4">Your Contacts</h2>
+            <ContactList />
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
