@@ -1,30 +1,47 @@
+import { useState } from "react";
 import ContactForm from "./components/ContactForm";
 import ContactList from "./components/ContactList";
+import axios from "axios";
 
-export default function App() {
+function App() {
+  const [contacts, setContacts] = useState([]);
+  const [editData, setEditData] = useState(null); // For editing contact
+
+  // 🗑 DELETE CONTACT
+  const deleteContact = async (id) => {
+    try {
+      await axios.delete(`${import.meta.env.VITE_API}/api/contacts/${id}`);
+      setContacts((prev) => prev.filter((c) => c._id !== id));
+    } catch (error) {
+      console.error("Error deleting contact:", error);
+    }
+  };
+
+  // ✏️ EDIT CONTACT (opens form with values)
+  const startEditing = (contact) => {
+    setEditData(contact); // pass this to the form
+  };
+
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-blue-100 flex flex-col items-center p-6">
-      <div className="w-full max-w-5xl">
-        {/* Header */}
-        <header className="mb-10 text-center">
-          <h1 className="text-5xl font-bold text-blue-700 drop-shadow-sm mb-2">📘 Address Book</h1>
-          <p className="text-gray-600 text-lg">
-          </p>
-        </header>
+    <div className="p-6 max-w-xl mx-auto">
+      <h1 className="text-3xl font-bold mb-4">📘 Address Book</h1>
 
-        {/* Main Content */}
-        <div className="grid md:grid-cols-2 gap-8">
-          <div className="bg-white p-6 rounded-2xl shadow-lg border border-blue-100">
-            <h2 className="text-2xl font-semibold text-gray-700 mb-4">Add New Contact</h2>
-            <ContactForm />
-          </div>
+      {/* Contact Form (Add + Edit) */}
+      <ContactForm
+        setContacts={setContacts}
+        editData={editData}
+        setEditData={setEditData}
+      />
 
-          <div className="bg-white p-6 rounded-2xl shadow-lg border border-blue-100">
-            <h2 className="text-2xl font-semibold text-gray-700 mb-4">Your Contacts</h2>
-            <ContactList />
-          </div>
-        </div>
-      </div>
+      {/* Contact List (Search + Delete + Edit) */}
+      <ContactList
+        contacts={contacts}
+        setContacts={setContacts}
+        deleteContact={deleteContact}
+        editContact={startEditing}
+      />
     </div>
   );
 }
+
+export default App;
