@@ -1,27 +1,44 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
 
-function ContactForm({ setContacts }) {
+function ContactForm({ setContacts, editingContact, setEditingContact }) {
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
+
+  // When edit button clicked → fill form
+  useEffect(() => {
+    if (editingContact) {
+      setName(editingContact.name);
+      setPhone(editingContact.phone);
+    }
+  }, [editingContact]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    try {
-      const response = await axios.post(
-        `${import.meta.env.VITE_API}/api/contacts`,
+    if (editingContact) {
+      // UPDATE contact
+      const res = await axios.put(
+        `${import.meta.env.VITE_API}/api/contacts/${editingContact._id}`,
         { name, phone }
       );
 
-      // Add new contact to UI
-      setContacts((prev) => [...prev, response.data]);
+      setContacts((prev) =>
+        prev.map((c) => (c._id === editingContact._id ? res.data : c))
+      );
 
-      setName("");
-      setPhone("");
-    } catch (error) {
-      console.error("Error adding contact:", error);
+      setEditingContact(null);
+    } else {
+      // ADD new contact
+      const res = await axios.post(
+        `${import.meta.env.VITE_API}/api/contacts`,
+        { name, phone }
+      );
+      setContacts((prev) => [...prev, res.data]);
     }
+
+    setName("");
+    setPhone("");
   };
 
   return (
@@ -43,7 +60,7 @@ function ContactForm({ setContacts }) {
       />
 
       <button className="bg-blue-600 text-white px-4 py-2 rounded">
-        Add
+        {editingContact ? "Update" : "Add"}
       </button>
     </form>
   );
