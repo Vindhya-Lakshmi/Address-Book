@@ -1,21 +1,19 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
-function Signup({ setUser }) {
+function Signup() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
 
   const handleSignup = (e) => {
     e.preventDefault();
-
-    // Temporary logic – will replace with backend later
-    if (email && password) {
-      setUser({ email });
-      navigate("/");
-    } else {
+    if (!email || !password) {
       alert("Please fill all fields");
+      return;
     }
+
+    navigate("/contacts"); // Redirect after signup
   };
 
   return (

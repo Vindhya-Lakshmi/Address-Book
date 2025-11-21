@@ -2,20 +2,20 @@ import { Phone, Trash2, User } from "lucide-react";
 
 export default function ContactCard({ contact }) {
   return (
-    <div className="bg-gradient-to-r from-blue-100 to-blue-50 border border-blue-200 shadow-md rounded-xl p-4 flex items-center justify-between hover:shadow-lg transition-all">
+    <div className="bg-gradient-to-r from-purple-400 via-pink-400 to-blue-400 border border-purple-200 shadow-xl rounded-2xl p-5 flex items-center justify-between hover:shadow-2xl transition-all duration-300 hover:scale-105">
       <div className="flex items-center gap-3">
-        <div className="bg-blue-600 text-white p-3 rounded-full">
-          <User size={20} />
+        <div className="bg-white text-purple-700 p-3 rounded-full shadow">
+          <User size={22} />
         </div>
         <div>
-          <p className="text-lg font-semibold text-gray-800">{contact.name}</p>
-          <p className="text-gray-600 flex items-center gap-1">
-            <Phone size={14} /> {contact.phone}
+          <p className="text-xl font-bold text-white drop-shadow-md">{contact.name}</p>
+          <p className="text-white flex items-center gap-1 font-medium drop-shadow-sm">
+            <Phone size={16} /> {contact.phone}
           </p>
         </div>
       </div>
 
-      <button className="text-red-500 hover:text-red-700 transition">
+      <button className="text-white bg-red-500 hover:bg-red-600 transition p-2 rounded-lg shadow">
         <Trash2 size={20} />
       </button>
     </div>

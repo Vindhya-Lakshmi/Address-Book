@@ -8,31 +8,31 @@ function ContactList({ contacts, setContacts, setEditingContact }) {
   };
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-5">
+    <div className="grid grid-cols-1 gap-4 mt-5">
       {contacts.map((c) => (
-        <div key={c._id} className="p-4 bg-white shadow rounded-lg flex justify-between">
+        <div key={c._id} className="p-4 bg-gradient-to-r from-blue-200 to-purple-200 shadow-md rounded-xl flex justify-between items-center hover:shadow-xl transition-all">
+
           <div>
-            <h3 className="font-bold">{c.name}</h3>
-            <p className="text-gray-600">{c.phone}</p>
+            <h3 className="font-bold text-purple-700">{c.name}</h3>
+            <p className="text-gray-700">{c.phone}</p>
           </div>
 
-          <div className="flex flex-col gap-2">
-
+          <div className="flex gap-2">
             <button
               onClick={() => setEditingContact(c)}
-              className="bg-blue-500 text-white px-3 py-1 rounded"
+              className="bg-green-500 text-white px-3 py-1 rounded shadow hover:bg-green-600 transition"
             >
               Edit
             </button>
 
             <button
               onClick={() => deleteContact(c._id)}
-              className="bg-red-500 text-white px-3 py-1 rounded"
+              className="bg-red-500 text-white px-3 py-1 rounded shadow hover:bg-red-600 transition"
             >
               Delete
             </button>
-
           </div>
+
         </div>
       ))}
     </div>
