@@ -15,25 +15,42 @@ function ContactForm({ setContacts, editingContact, setEditingContact }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (editingContact) {
-      const res = await axios.put(
-        `${import.meta.env.VITE_API}/api/contacts/${editingContact._id}`,
-        { name, phone }
-      );
-      setContacts((prev) =>
-        prev.map((c) => (c._id === editingContact._id ? res.data : c))
-      );
-      setEditingContact(null);
-    } else {
-      const res = await axios.post(
-        `${import.meta.env.VITE_API}/api/contacts`,
-        { name, phone }
-      );
-      setContacts((prev) => [...prev, res.data]);
+    if (!name.trim() || !phone.trim()) {
+      alert("Name and Phone are required!");
+      return;
     }
 
-    setName("");
-    setPhone("");
+    try {
+      let res;
+
+      if (editingContact) {
+        res = await axios.put(
+          `${import.meta.env.VITE_API}/api/contacts/${editingContact._id}`,
+          { name, phone }
+        );
+
+        setContacts((prev) =>
+          prev.map((c) => (c._id === editingContact._id ? res.data : c))
+        );
+
+        setEditingContact(null);
+        alert("Contact updated successfully!");
+      } else {
+        res = await axios.post(
+          `${import.meta.env.VITE_API}/api/contacts`,
+          { name, phone }
+        );
+
+        setContacts((prev) => [...prev, res.data]);
+        alert("Contact added successfully!");
+      }
+
+      setName("");
+      setPhone("");
+    } catch (error) {
+      console.error("Error:", error.response?.data || error.message);
+      alert(error.response?.data?.message || "Something went wrong!");
+    }
   };
 
   return (
